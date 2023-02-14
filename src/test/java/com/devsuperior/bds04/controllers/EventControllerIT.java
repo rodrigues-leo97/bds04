@@ -50,7 +50,7 @@ public class EventControllerIT {
 	}
 
 	@Test
-	public void insertShouldReturn401WhenNoUserLogged() throws Exception {
+	public void insertShouldReturn401WhenNoUserLogged() throws Exception { //401 quando não tiver nenhum usuário logado
 
 		EventDTO dto = new EventDTO(null, "Expo XP", LocalDate.of(2021, 5, 18), "https://expoxp.com.br", 1L);
 		String jsonBody = objectMapper.writeValueAsString(dto);
@@ -65,7 +65,7 @@ public class EventControllerIT {
 	}
 
 	@Test
-	public void insertShouldInsertResourceWhenClientLoggedAndCorrectData() throws Exception {
+	public void insertShouldInsertResourceWhenClientLoggedAndCorrectData() throws Exception { //insert deve inserir quando o CLIENTE estiver logado e os dados estiverem corretos
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
 		LocalDate nextMonth = LocalDate.now().plusMonths(1L);
@@ -89,7 +89,7 @@ public class EventControllerIT {
 	}
 
 	@Test
-	public void insertShouldInsertResourceWhenAdminLoggedAndCorrectData() throws Exception {
+	public void insertShouldInsertResourceWhenAdminLoggedAndCorrectData() throws Exception {//insert deve inserir quando o ADMIN estiver logado e os dados estiverem corretos
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 		LocalDate nextMonth = LocalDate.now().plusMonths(1L);
@@ -113,7 +113,7 @@ public class EventControllerIT {
 	}
 
 	@Test
-	public void insertShouldReturn422WhenAdminLoggedAndBlankName() throws Exception {
+	public void insertShouldReturn422WhenAdminLoggedAndBlankName() throws Exception { //insert deve retornar 411 quando admin estiver logado e com o nome em branco
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 		LocalDate nextMonth = LocalDate.now().plusMonths(1L);
@@ -134,7 +134,7 @@ public class EventControllerIT {
 	}
 
 	@Test
-	public void insertShouldReturn422WhenAdminLoggedAndPastDate() throws Exception {
+	public void insertShouldReturn422WhenAdminLoggedAndPastDate() throws Exception { //insert deve retornar 422 quando admin estiver logado e com uma data anterior ao dia atual(data passada)
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 		LocalDate pastMonth = LocalDate.now().minusMonths(1L);
@@ -155,7 +155,7 @@ public class EventControllerIT {
 	}
 
 	@Test
-	public void insertShouldReturn422WhenAdminLoggedAndNullCity() throws Exception {
+	public void insertShouldReturn422WhenAdminLoggedAndNullCity() throws Exception { //insert deve retornar 422 quando admin estiver logado e a cidade nulla
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 		LocalDate nextMonth = LocalDate.now().plusMonths(1L);
@@ -176,7 +176,7 @@ public class EventControllerIT {
 	}
 
 	@Test
-	public void findAllShouldReturnPagedResources() throws Exception {
+	public void findAllShouldReturnPagedResources() throws Exception { //findAll deve retornar os recursos páginados
 		
 		ResultActions result =
 				mockMvc.perform(get("/events")

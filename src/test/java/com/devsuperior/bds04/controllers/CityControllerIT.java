@@ -48,7 +48,7 @@ public class CityControllerIT {
 	}
 
 	@Test
-	public void insertShouldReturn401WhenNoUserLogged() throws Exception {
+	public void insertShouldReturn401WhenNoUserLogged() throws Exception { //401 quando não tiver usuário logado
 
 		CityDTO dto = new CityDTO(null, "Recife");
 		String jsonBody = objectMapper.writeValueAsString(dto);
@@ -63,7 +63,7 @@ public class CityControllerIT {
 	}
 	
 	@Test
-	public void insertShouldReturn403WhenClientLogged() throws Exception {
+	public void insertShouldReturn403WhenClientLogged() throws Exception {//403 se eu tentar inserir cidade logado como cliente
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
 
@@ -81,7 +81,7 @@ public class CityControllerIT {
 	}
 	
 	@Test
-	public void insertShouldInsertResourceWhenAdminLoggedAndCorrectData() throws Exception {
+	public void insertShouldInsertResourceWhenAdminLoggedAndCorrectData() throws Exception { //inserir o RESOURCE quando estiver logado como admin e os dados forem correto
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 
@@ -95,13 +95,13 @@ public class CityControllerIT {
 					.contentType(MediaType.APPLICATION_JSON)
 					.accept(MediaType.APPLICATION_JSON));
 		
-		result.andExpect(status().isCreated());
-		result.andExpect(jsonPath("$.id").exists());
+		result.andExpect(status().isCreated()); //retornar 201 - created
+		result.andExpect(jsonPath("$.id").exists()); //retornar um DTO com id e nome da cidade
 		result.andExpect(jsonPath("$.name").value("Recife"));
 	}
 
 	@Test
-	public void insertShouldReturn422WhenAdminLoggedAndBlankName() throws Exception {
+	public void insertShouldReturn422WhenAdminLoggedAndBlankName() throws Exception { //422 quando eu tiver logado como admin e nome em branco
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 
@@ -115,20 +115,20 @@ public class CityControllerIT {
 					.contentType(MediaType.APPLICATION_JSON)
 					.accept(MediaType.APPLICATION_JSON));
 		
-		result.andExpect(status().isUnprocessableEntity());
-		result.andExpect(jsonPath("$.errors[0].fieldName").value("name"));
-		result.andExpect(jsonPath("$.errors[0].message").value("Campo requerido"));
+		result.andExpect(status().isUnprocessableEntity()); //UNPROCESSABLE ENTITY
+		result.andExpect(jsonPath("$.errors[0].fieldName").value("name")); //mensagem de erro
+		result.andExpect(jsonPath("$.errors[0].message").value("Campo requerido")); //campo requerido
 	}
 
 	@Test
-	public void findAllShouldReturnAllResourcesSortedByName() throws Exception {
+	public void findAllShouldReturnAllResourcesSortedByName() throws Exception { //deve retornar todos os recursos ordenados por nome
 		
 		ResultActions result =
 				mockMvc.perform(get("/cities")
 					.contentType(MediaType.APPLICATION_JSON));
 
 		result.andExpect(status().isOk());
-		result.andExpect(jsonPath("$[0].name").value("Belo Horizonte"));
+		result.andExpect(jsonPath("$[0].name").value("Belo Horizonte")); //retornar nessa ordem
 		result.andExpect(jsonPath("$[1].name").value("Belém"));
 		result.andExpect(jsonPath("$[2].name").value("Brasília"));
 	}
