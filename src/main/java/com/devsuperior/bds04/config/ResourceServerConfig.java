@@ -22,13 +22,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private JwtTokenStore tokenStore;
 
-    private static final String[] PUBLIC_AUTH = {"/oauth/token", "/h2-console/**"}; //endpoints publicos
+    private static final String[] PUBLIC_AUTH = {"/oauth/token", "/h2-console/**"};
 
-    private static final String[] PUBLIC = {"/cities/**", "/events/**"}; //endpoints publicos
+    private static final String[] PUBLIC = {"/cities/**", "/events/**"};
 
-    private static final String[] ADMIN = {"/events/**", "/cities/**"}; //rotas que estarão liberadas para quem for operador e admin
+    private static final String[] ADMIN = {"/events/**"};
 
-    //private static final String[] OPERATOR_GET = {"/departments/**", "/employees/**"};
+    // private static final String[] ADMIN = {"/events/**", "/cities/**"};
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception { //irá decodificar o token e ver se está tudo certo ou não, valida o token
@@ -48,7 +48,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(PUBLIC_AUTH).permitAll()
                 .antMatchers(HttpMethod.GET, PUBLIC).permitAll() //verificar se está certo???
-                .antMatchers(HttpMethod.POST, ADMIN).hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.POST, ADMIN).hasAnyRole("ADMIN", "OPERATOR")
                 .anyRequest().hasAnyRole("ADMIN");
 
     }

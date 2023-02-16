@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class CityService {
 
     @Autowired
-    CityRepository cityRepository;
+    private CityRepository cityRepository;
 
     @Transactional
     public List<CityDTO> findAll() {

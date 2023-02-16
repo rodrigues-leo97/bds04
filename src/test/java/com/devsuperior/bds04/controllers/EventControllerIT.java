@@ -113,7 +113,7 @@ public class EventControllerIT {
 	}
 
 	@Test
-	public void insertShouldReturn422WhenAdminLoggedAndBlankName() throws Exception { //insert deve retornar 411 quando admin estiver logado e com o nome em branco
+	public void insertShouldReturn422WhenAdminLoggedAndBlankName() throws Exception { //insert deve retornar 422 quando admin estiver logado e com o nome em branco
 
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 		LocalDate nextMonth = LocalDate.now().plusMonths(1L);
