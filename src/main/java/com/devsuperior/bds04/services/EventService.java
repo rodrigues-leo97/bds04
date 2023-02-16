@@ -7,7 +7,10 @@ import com.devsuperior.bds04.entities.Event;
 import com.devsuperior.bds04.repositories.CityRepository;
 import com.devsuperior.bds04.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -37,4 +40,9 @@ public class EventService {
     }
 
 
+    @Transactional
+    public Page<EventDTO> findAll(PageRequest pageRequest) {
+        Page<Event> page = eventRepository.findAll(pageRequest);
+        return page.map(x -> new EventDTO(x));
+    }
 }
