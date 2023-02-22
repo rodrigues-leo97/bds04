@@ -34,6 +34,8 @@ public class EventController {
         eventDTO = eventService.insert(eventDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(eventDTO.getId()).toUri();
+
+        //return
         return ResponseEntity.created(uri).body(eventDTO);
     }
 
