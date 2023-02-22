@@ -26,14 +26,12 @@ public class EventController {
     public ResponseEntity<Page<EventDTO>> findAll(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("name"));
         Page<EventDTO> list = eventService.findAll(pageRequest);
-
         return ResponseEntity.ok().body(list);
     }
 
     @PostMapping
     public ResponseEntity<EventDTO> insert(@Valid @RequestBody EventDTO eventDTO) {
         eventDTO = eventService.insert(eventDTO);
-
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(eventDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(eventDTO);
